@@ -1,5 +1,13 @@
 //js
 
+//LOADING SCREEN///////////////////
+$(window).on("load", function () {
+    $("#loading").fadeOut(1000, function () {
+        $("body").css("overflow", "auto");
+    })
+})
+//END LOADING SCREEN///////////////////
+
 //SIDE NAV BAR//////////////////////////////////
 let navWidth = $(".navMenu").outerWidth(true);
 let drawerWidth = $(".drawer").outerWidth(true);
@@ -30,8 +38,64 @@ $("#toggleNav").click(function () {
 })
 //END SIDE NAV BAR///////////////////////////////////////////////
 
+
+//typewriter///////////////////////////////////
+
+var TxtType = function(el, toRotate, period) {
+    this.toRotate = toRotate;
+    this.el = el;
+    this.loopNum = 0;
+    this.period = parseInt(period, 10) || 2000;
+    this.txt = '';
+    this.tick();
+    this.isDeleting = false;
+};
+
+TxtType.prototype.tick = function() {
+    var i = this.loopNum % this.toRotate.length;
+    var fullTxt = this.toRotate[i];
+
+    if (this.isDeleting) {
+    this.txt = fullTxt.substring(0, this.txt.length - 1);
+    } else {
+    this.txt = fullTxt.substring(0, this.txt.length + 1);
+    }
+
+    this.el.innerHTML = '<span class="wrap">'+this.txt+'</span>';
+
+    var that = this;
+    var delta = 200 - Math.random() * 100;
+
+    if (this.isDeleting) { delta /= 2; }
+
+    if (!this.isDeleting && this.txt === fullTxt) {
+    delta = this.period;
+    this.isDeleting = true;
+    } else if (this.isDeleting && this.txt === '') {
+    this.isDeleting = false;
+    this.loopNum++;
+    delta = 500;
+    }
+
+    setTimeout(function() {
+    that.tick();
+    }, delta);
+};
+
+window.onload = function() {
+    var elements = document.getElementsByClassName('typewrite');
+    for (var i=0; i<elements.length; i++) {
+        var toRotate = elements[i].getAttribute('data-type');
+        var period = elements[i].getAttribute('data-period');
+        if (toRotate) {
+          new TxtType(elements[i], JSON.parse(toRotate), period);
+        }
+    }
+};
+// TYPEWRITER//////////////////////////////////
+
 //BUTTON UP//////////////////////////////////////////////
-let searchBarOffset = $("#services").offset().top;
+let searchBarOffset = $("#service-section").offset().top;
 
 $(window).scroll(function () {
 
@@ -51,6 +115,340 @@ $("#btnUp").click(function () {
 })
 //END BUTTON UP//////////////////////////////////////////////
 
+
+
+//PROJECTS//////////////////////////////////////////////
+var projectText=['LorLorem ipsum dolor sit amet, consectetur adipisicing elit,em','Lorem ipsum dolor sit amet, consectetur adipisicing elit,','Lorem ipsum dolor sit amet, consectetur adipisicing elit,','Lorem ipsum dolor sit amet, consectetur adipisicing elit,','Lorem ipsum dolor sit amet, consectetur adipisicing elit,','Lorem ipsum dolor sit amet, consectetur adipisicing elit,','Lorem ipsum dolor sit amet, consectetur adipisicing elit,','Lorem ipsum dolor sit amet, consectetur adipisicing elit,','Lorem ipsum dolor sit amet, consectetur adipisicing elit,'];
+var projectName=['Project1','Project2','Project3','Project4','Project5','Project6','Project7','Project8','Project9']
+var projectCategory=['WEB DESIGN','APP DEVELOPMENT','E-MARKETING','VIDEO DESIGN','IDENTITY DESIGN','SOCIAL MEDIA MANAGMENT','E-MARKETING','IDENTITY DESIGN','E-MARKETING']
+var projectSrc=['images/webdesign.jpg','images/app.jpg','images/marketing.jpg','images/video.jpg','images/identity.jpg','images/smedia.jpg','images/marketing.jpg','images/identity.jpg','images/marketing.jpg']
+var currentProject=0;
+if(projectText.length<=4)
+{
+    var text="";
+    for(i=0;i<projectText.length;i++)
+    {
+        currentProject++;
+      text=`<div class="col-md-6>
+                <div class="project d-flex justify-content-center align-items-center">
+                    <div class="overlay"></div>   
+                    <div class="projectContent">
+                        <h4 class="text-center">`+projectName[i]+`</h4>
+                        <p>`+projectText[i]+`</p>
+                        <a href="#" class="hvr-bounce-to-right">Show details</a>
+                        </div>   
+                    <div class="typeHint rounded-left">`+projectCategory[i]+`</div>                                                 
+                </div>
+            </div>`
+    }
+$(".projectContain").html(text)
+}
+else
+{
+    var text="";
+    for(i=0;i<4;i++)
+    {
+      currentProject++;
+      text+=`<div class="col-md-6">
+      <div class="project d-flex justify-content-center align-items-center">
+      <div class="overlay"></div>   
+                    <div class="projectContent">
+                        <h4 class="text-center">`+projectName[i]+`</h4>
+                        <p>`+projectText[i]+`</p>
+                        <a href="#" class="hvr-bounce-to-right">Show details</a>
+                        </div>   
+                    <div class="typeHint rounded-left">`+projectCategory[i]+`</div>                                                 
+                </div>
+            </div>`
+    }
+$(".projectContain").html(text)
+}
+
+function showProjects()
+{
+    var text="";
+    if(projectText.length-currentProject<=4)
+    {   
+        var current=currentProject
+        for(i=current;i<projectText.length;i++)
+        {
+          currentProject++;
+          text+=`<div class="col-md-6">
+          <div class="project d-flex justify-content-center align-items-center">
+          <div class="overlay"></div>   
+                        <div class="projectContent">
+                            <h4 class="text-center">`+projectName[i]+`</h4>
+                            <p>`+projectText[i]+`</p>
+                            <a href="#" class="hvr-bounce-to-right">Show details</a>
+                            </div>   
+                        <div class="typeHint rounded-left">`+projectCategory[i]+`</div>                                                 
+                    </div>
+                </div>`
+        }
+    $(".projectContain").html(text)    
+}
+    else
+    {
+        var t=currentProject
+        for(i=currentProject;i<t+4;i++)
+        {
+            currentProject++;
+          text+=`<div class="col-md-6">
+          <div class="project d-flex justify-content-center align-items-center">
+          <div class="overlay"></div>   
+                        <div class="projectContent">
+                            <h4 class="text-center">`+projectName[i]+`</h4>
+                            <p>`+projectText[i]+`</p>
+                            <a href="#" class="hvr-bounce-to-right">Show details</a>
+                            </div>   
+                        <div class="typeHint rounded-left">`+projectCategory[i]+`</div>                                                 
+                    </div>
+                </div>`
+        }
+    $(".projectContain").html(text)
+    }
+}
+$('#Projects .fa-chevron-right').click(function()
+{
+    if(currentProject<projectText.length)
+    {
+        showProjects(); 
+    }
+    else
+    {
+        currentProject=0;
+        showProjects(); 
+    }
+})
+/*********************/
+
+/*****FILTER PROJECTS*****/
+$('.filterProjects a').click(function()
+{
+        var filtered="";
+        if($(this).html()=="ALL")
+        { 
+            if($(".filterProjects a").hasClass("hvr-a")){
+                $(".filterProjects a").removeClass("hvr-a");
+            }
+            $(this).addClass("hvr-a");
+
+            $('#Projects .fa-chevron-right').show() 
+            currentProject=0;
+            showProjects();
+        }
+        else
+        {
+            $('#Projects .fa-chevron-right').hide() 
+            if($(this).html()=="WEB")
+            {
+                if($(".filterProjects a").hasClass("hvr-a")){
+                    $(".filterProjects a").removeClass("hvr-a");
+                }
+                $(this).addClass("hvr-a");
+                
+                for(i=0;i<projectText.length;i++)
+                { 
+                    if(projectCategory[i]=="WEB DESIGN")
+                    {
+                        filtered+=`<div class="col-md-6">
+                        <div class="project d-flex justify-content-center align-items-center">
+                        <div class="overlay"></div>   
+                                <div class="projectContent">
+                                    <h4 class="text-center">`+projectName[i]+`</h4>
+                                    <p>`+projectText[i]+`</p>
+                                    <a href="#" class="hvr-bounce-to-right">Show details</a>
+                                </div>   
+                                <div class="typeHint rounded-left">`+projectCategory[i]+`</div>                                                 
+                            </div>
+                        </div>`
+                    }    
+                }
+            $(".projectContain").html(filtered)    
+            }
+            else if($(this).html()=="APPLICATIONS")
+            {
+                if($(".filterProjects a").hasClass("hvr-a")){
+                    $(".filterProjects a").removeClass("hvr-a");
+                }
+                $(this).addClass("hvr-a");
+
+                for(i=0;i<projectText.length;i++)
+                { 
+                    if(projectCategory[i]=="APP DEVELOPMENT")
+                    {
+                        filtered+=`<div class="col-md-6">
+                        <div class="project d-flex justify-content-center align-items-center">
+                        <div class="overlay"></div>   
+                                <div class="projectContent">
+                                    <h4 class="text-center">`+projectName[i]+`</h4>
+                                    <p>`+projectText[i]+`</p>
+                                    <a href="#" class="hvr-bounce-to-right">Show details</a>
+                                </div>   
+                                <div class="typeHint rounded-left">`+projectCategory[i]+`</div>                                                 
+                            </div>
+                        </div>`
+                    }    
+                }
+            $(".projectContain").html(filtered)    
+            }
+            else if($(this).html()=="E-MARKETING")
+            {
+                if($(".filterProjects a").hasClass("hvr-a")){
+                    $(".filterProjects a").removeClass("hvr-a");
+                }
+                $(this).addClass("hvr-a");
+
+                for(i=0;i<projectText.length;i++)
+                { 
+                    if(projectCategory[i]=="E-MARKETING")
+                    {
+                        filtered+=`<div class="col-md-6">
+                        <div class="project d-flex justify-content-center align-items-center">
+                        <div class="overlay"></div>   
+                                <div class="projectContent">
+                                    <h4 class="text-center">`+projectName[i]+`</h4>
+                                    <p>`+projectText[i]+`</p>
+                                    <a href="#" class="hvr-bounce-to-right">Show details</a>
+                                </div>   
+                                <div class="typeHint rounded-left">`+projectCategory[i]+`</div>                                                 
+                            </div>
+                        </div>`
+                    }    
+                }
+            $(".projectContain").html(filtered)    
+            }
+            else if($(this).html()=="SOCIAL MEDIA")
+            {
+                if($(".filterProjects a").hasClass("hvr-a")){
+                    $(".filterProjects a").removeClass("hvr-a");
+                }
+                $(this).addClass("hvr-a");
+
+                for(i=0;i<projectText.length;i++)
+                { 
+                    if(projectCategory[i]=="SOCIAL MEDIA MANAGMENT")
+                    {
+                        filtered+=`<div class="col-md-6">
+                        <div class="project d-flex justify-content-center align-items-center">
+                        <div class="overlay"></div>   
+                                <div class="projectContent">
+                                    <h4 class="text-center">`+projectName[i]+`</h4>
+                                    <p>`+projectText[i]+`</p>
+                                    <a href="#" class="hvr-bounce-to-right">Show details</a>
+                                </div>   
+                                <div class="typeHint rounded-left">`+projectCategory[i]+`</div>                                                 
+                            </div>
+                        </div>`
+                    }    
+                }
+            $(".projectContain").html(filtered)    
+            }
+            else if($(this).html()=="VIDEOS")
+            {
+                if($(".filterProjects a").hasClass("hvr-a")){
+                    $(".filterProjects a").removeClass("hvr-a");
+                }
+                $(this).addClass("hvr-a");
+
+                for(i=0;i<projectText.length;i++)
+                { 
+                    if(projectCategory[i]=="VIDEO DESIGN")
+                    {
+                        filtered+=`<div class="col-md-6">
+                        <div class="project d-flex justify-content-center align-items-center">
+                        <div class="overlay"></div>   
+                                <div class="projectContent">
+                                    <h4 class="text-center">`+projectName[i]+`</h4>
+                                    <p>`+projectText[i]+`</p>
+                                    <a href="#" class="hvr-bounce-to-right">Show details</a>
+                                </div>   
+                                <div class="typeHint rounded-left">`+projectCategory[i]+`</div>                                                 
+                            </div>
+                        </div>`
+                    }    
+                }
+            $(".projectContain").html(filtered)    
+            }
+            else if($(this).html()=="IDENTITY")
+            {
+                if($(".filterProjects a").hasClass("hvr-a")){
+                    $(".filterProjects a").removeClass("hvr-a");
+                }
+                $(this).addClass("hvr-a");
+                
+                for(i=0;i<projectText.length;i++)
+                { 
+                    if(projectCategory[i]=="IDENTITY DESIGN")
+                    {
+                        filtered+=`<div class="col-md-6">
+                        <div class="project d-flex justify-content-center align-items-center">
+                        <div class="overlay"></div>   
+                                <div class="projectContent">
+                                    <h4 class="text-center">`+projectName[i]+`</h4>
+                                    <p>`+projectText[i]+`</p>
+                                    <a href="#" class="hvr-bounce-to-right">Show details</a>
+                                </div>   
+                                <div class="typeHint rounded-left">`+projectCategory[i]+`</div>                                                 
+                            </div>
+                        </div>`
+                    }    
+                }
+            $(".projectContain").html(filtered)    
+            }
+        }
+}
+)
+
+//END PROJECTS//////////////////////////////////////////////
+
+
+//OUR CLIENTS//////////////////////////////////////////////
+var reviewSrc=['images/client-1.png','images/client-2.png','images/client-3.png','images/client-5.png','images/client-6.png'];
+var reviewText=['First class service and product.','quick delivery and quality','Very happy will definitely use again.','Very efficient','Brilliant service and quick delivery. Thank you'];
+var reviewName=['MOLLY F. ','Alison R.','Lucy B.','Patarita T.','Mick B. ']
+$(".Clients img").attr('src',reviewSrc[0]);
+$(".Clients .reviewName").html(reviewName[0]);
+$(".reviewPara p").html('<span><i class="fa fa-quote-left"></i></span>'+reviewText[0]+'<span><i class="fa fa-quote-right"></i></span>') 
+var reviewNumber=0;
+$(".Clients .fa-chevron-right").click(function()
+{
+    if(reviewNumber==reviewSrc.length-1)
+    { 
+        $(".Clients img").attr('src',reviewSrc[0]) 
+        $(".reviewPara p").html('<span><i class="fa fa-quote-left"></i></span>'+reviewText[0]+'<span><i class="fa fa-quote-right"></i></span>') 
+        $(".Clients .reviewName").html(reviewName[0]);
+        reviewNumber=0;
+    }
+    else
+    {
+        reviewNumber++;
+        $(".Clients img").attr('src',reviewSrc[reviewNumber])
+        $(".reviewPara p").html('<span><i class="fa fa-quote-left"></i></span>'+reviewText[reviewNumber]+'<span><i class="fa fa-quote-right"></i></span>')   
+        $(".Clients .reviewName").html(reviewName[reviewNumber]);
+    }
+}
+);
+$(".Clients .fa-chevron-left").click(function()
+{
+    if(reviewNumber==0)
+    {
+        $(".Clients img").attr('src',reviewSrc[reviewSrc.length-1]) 
+        $(".reviewPara p").html('<span><i class="fa fa-quote-left text-start"></i></span>'+reviewText[reviewSrc.length-1]+'<span><i class="fa fa-quote-right text-start"></i></span>') 
+        $(".Clients .reviewName").html(reviewName[reviewSrc.length-1]);
+        reviewNumber=reviewSrc.length-1; 
+    }
+    else
+    {
+        reviewNumber--;
+        $(".Clients img").attr('src',reviewSrc[reviewNumber])
+        $(".reviewPara p").html('<span><i class="fa fa-quote-left"></i></span>'+reviewText[reviewNumber]+'<span><i class="fa fa-quote-right"></i></span>')   
+        $(".Clients .reviewName").html(reviewName[reviewNumber]);
+    }
+}
+);
+
+/*END OUR CLIENTS*/
 
 /*Getting request values*/
 var firstName=document.getElementById("firstName");
